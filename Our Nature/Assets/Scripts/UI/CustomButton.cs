@@ -6,16 +6,28 @@ using UnityEngine.EventSystems;
 
 public class CustomButton : Button {
 
+	public static bool quitting;
+
 	public EventSystem eventSystem;
 
-	protected override void Awake ()
-	{
-		base.Awake ();
-		//eventSystem = GetComponent<EventSystemProvider> ().eventSystem;	// Replaced by getEventSystem();
+	protected override void Start() {
+		if (quitting) {
+			return;
+		}
 		getEventSystem();
+		base.Start();
 	}
 
 	private void getEventSystem() {
+		if (eventSystem != null) {
+			return;
+		}
+
+		if (GameConstants.GameConstantsStatic == null) {
+			Debug.Log ("GameConstantsStatic returned null for object: " + gameObject);
+			return;
+		}
+
 		GameObject nextParent = gameObject;
 		GameObject P1_TargetUI = GameConstants.GameConstantsStatic.UI_P1;
 		GameObject P2_TargetUI = GameConstants.GameConstantsStatic.UI_P2;
@@ -43,6 +55,10 @@ public class CustomButton : Button {
 		if (nextParent == null) {
 			Debug.Log ("No identifying player UI found by CustomButton script");
 		}
+	}
+
+	void OnApplicationQuit() {
+		quitting = true;
 	}
 
 	public override void OnPointerDown(PointerEventData eventData) {
