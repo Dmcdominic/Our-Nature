@@ -9,16 +9,6 @@ public class EquipmentUIManager : MonoBehaviour {
 	public Sprite EquipmentIcon;
 	public string Description;
 
-	// Use this for initialization
-	void Start () {
-		DisplayIcon ();
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
 	// Display 
 	void DisplayIcon() {
 		if (EquipmentIcon == null) {

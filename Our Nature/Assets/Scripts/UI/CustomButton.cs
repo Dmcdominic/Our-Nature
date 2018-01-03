@@ -9,19 +9,23 @@ public class CustomButton : Button {
 	public static bool quitting;
 
 	public EventSystem eventSystem;
+	public Character character;
+
+	private EventSystem attemptedES;
+	private BaseEventData attemptedED;
 
 	protected override void Start() {
 		if (quitting) {
 			return;
 		}
+		eventSystem = null;
+		character = null;
 		getEventSystem();
 		base.Start();
 	}
 
+	// Find the MultiEventSystem that this button should associate with
 	private void getEventSystem() {
-		if (eventSystem != null) {
-			return;
-		}
 
 		if (GameConstants.GameConstantsStatic == null) {
 			Debug.Log ("GameConstantsStatic returned null for object: " + gameObject);
@@ -29,31 +33,26 @@ public class CustomButton : Button {
 		}
 
 		GameObject nextParent = gameObject;
-		GameObject P1_TargetUI = GameConstants.GameConstantsStatic.UI_P1;
-		GameObject P2_TargetUI = GameConstants.GameConstantsStatic.UI_P2;
-		GameObject P3_TargetUI = GameConstants.GameConstantsStatic.UI_P3;
-		GameObject P4_TargetUI = GameConstants.GameConstantsStatic.UI_P4;
 
 		while (nextParent != null) {
-			if (nextParent == P1_TargetUI) {
-				eventSystem = GameConstants.GameConstantsStatic.MES_P1;
-				return;
-			} else if (nextParent == P2_TargetUI) {
-				eventSystem = GameConstants.GameConstantsStatic.MES_P2;
-				return;
-			} else if (nextParent == P3_TargetUI) {
-				eventSystem = GameConstants.GameConstantsStatic.MES_P3;
-				return;
-			} else if (nextParent == P4_TargetUI) {
-				eventSystem = GameConstants.GameConstantsStatic.MES_P4;
-				return;
+			foreach (Character Char in GameConstants.Characters) {
+				if (nextParent == Char.UI_parent) {
+					eventSystem = Char.Multi_ES;
+					character = Char;
+					return;
+				}
 			}
 
-			nextParent = nextParent.transform.parent.gameObject;
+			if (nextParent.transform.parent == null) {
+				nextParent = null;
+			} else {
+				nextParent = nextParent.transform.parent.gameObject;
+			}
 		}
 
 		if (nextParent == null) {
-			Debug.Log ("No identifying player UI found by CustomButton script");
+			eventSystem = null;
+			character = null;
 		}
 	}
 
@@ -61,6 +60,7 @@ public class CustomButton : Button {
 		quitting = true;
 	}
 
+	// MultiEventSystem edits
 	public override void OnPointerDown(PointerEventData eventData) {
 		if (eventData.button != PointerEventData.InputButton.Left) {
 			return;
@@ -74,11 +74,56 @@ public class CustomButton : Button {
 		base.OnPointerDown (eventData);
 	}
 
+	// MultiEventSystem edits
 	public override void Select() {
 		if (eventSystem.alreadySelecting) {
 			return;
 		}
 
 		eventSystem.SetSelectedGameObject (gameObject);
+	}
+
+	// Called when button is "highlighted"
+	public override void OnSelect(BaseEventData eventData) {
+		if (EventSystem.current != eventSystem && eventSystem != null) {
+			attemptedES = EventSystem.current;
+			attemptedED = eventData;
+			trySelectPrevious();
+			return;
+		} else if (GetComponent<SharedCraftingIcon>() != null) {
+			GetComponent<SharedCraftingIcon> ().OnSelectIcon (EventSystem.current);
+		}
+
+		EventSystem.current.GetComponent<MultiEventSystem> ().prevButton = this;
+		base.OnSelect(eventData);
+	}
+
+	// Called on deselect. Edited to only deselect if current ES is the intended one
+	public override void OnDeselect(BaseEventData eventData) {
+		if (EventSystem.current != eventSystem && eventSystem != null) {
+			return;
+		} else if (GetComponent<SharedCraftingIcon>() != null) {
+			GetComponent<SharedCraftingIcon> ().OnDeselectIcon (EventSystem.current);
+		}
+
+		base.OnDeselect (eventData);
+	}
+
+	// Try to select the button that the MultiEventSystem previously had selected
+	public void trySelectPrevious() {
+		if (attemptedES == GameConstants.GameConstantsStatic.baseES) {
+			return;
+		}
+
+		if (attemptedES.alreadySelecting) {
+			Invoke ("trySelectPrevious", 0.01f);
+			return;
+		} else {
+			EventSystem temp = EventSystem.current;
+			EventSystem.current = attemptedES;
+			attemptedES.GetComponent<MultiEventSystem> ().prevButton.OnSelect (attemptedED);
+			attemptedES.SetSelectedGameObject (attemptedES.GetComponent<MultiEventSystem> ().prevButton.gameObject);
+			EventSystem.current = temp;
+		}
 	}
 }
