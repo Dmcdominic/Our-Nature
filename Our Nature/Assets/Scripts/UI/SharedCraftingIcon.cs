@@ -16,7 +16,7 @@ public class SharedCraftingIcon : MonoBehaviour {
 
 	void Awake () {
 		currentIcon = GetComponent<Image> ();
-		bool[] selected = new bool[4];
+		selected = new bool[4];
 	}
 	
 	// Update is called once per frame
