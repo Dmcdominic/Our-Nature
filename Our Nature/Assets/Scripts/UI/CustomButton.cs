@@ -31,26 +31,30 @@ public class CustomButton : Button {
 			return;
 		}
 
-		onClick.AddListener (OnClickDelegate);
-
 		eventSystem = null;
 		character = null;
 		getEventSystem();
+
+		if (character) {
+			EventManager.StartListening ("ClearCraftingSelect" + character.Name, deselectForCrafting);
+		}
+		onClick.AddListener (OnClickDelegate);
+
 		base.Start();
 	}
 
 	// Find the MultiEventSystem that this button should associate with
 	private void getEventSystem() {
 
-		if (GameConstants.GameConstantsStatic == null) {
-			Debug.Log ("GameConstantsStatic returned null for object: " + gameObject);
+		if (GameConstants.GC_Static == null) {
+			Debug.Log ("GC_Static returned null for object: " + gameObject);
 			return;
 		}
 
 		GameObject nextParent = gameObject;
 
 		while (nextParent != null) {
-			foreach (Character Char in GameConstants.GameConstantsStatic.Characters) {
+			foreach (Character Char in GameConstants.GC_Static.Characters) {
 				if (Char != null) {
 					if (nextParent == Char.UI_parent) {
 						eventSystem = Char.Multi_ES;
@@ -78,11 +82,25 @@ public class CustomButton : Button {
 	}
 
 	void OnClickDelegate() {
-		if (item != null && item.usableInCrafting()) {
-			// First deselect all other buttons
+		print ("OnClickDelegate called");
+		if (item != null && item.usableInCrafting() && character) {
+			print ("Within conditional");
+			EventManager.TriggerEvent ("ClearCraftingSelect" + character.Name);
+			selectForCrafting ();
+		}
+	}
 
-			eventSystem.GetComponent<MultiEventSystem> ().selectedCraftingItem = item;
-			craftingHighlight.SetActive (true);
+	public void selectForCrafting() {
+		eventSystem.GetComponent<MultiEventSystem> ().selectedCraftingItem = item;
+		craftingHighlight.SetActive (true);
+	}
+
+	public void deselectForCrafting() {
+		if (eventSystem.GetComponent<MultiEventSystem> ().selectedCraftingItem == item) {
+			eventSystem.GetComponent<MultiEventSystem> ().selectedCraftingItem = null;
+		}
+		if (craftingHighlight) {
+			craftingHighlight.SetActive (false);
 		}
 	}
 
@@ -137,7 +155,7 @@ public class CustomButton : Button {
 
 	// Try to select the button that the MultiEventSystem previously had selected
 	public void trySelectPrevious() {
-		if (attemptedES == GameConstants.GameConstantsStatic.baseES) {
+		if (attemptedES == GameConstants.GC_Static.baseES) {
 			return;
 		}
 

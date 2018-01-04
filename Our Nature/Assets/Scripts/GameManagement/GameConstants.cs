@@ -5,21 +5,21 @@ using UnityEngine.EventSystems;
 
 public class GameConstants : MonoBehaviour {
 
-	public static GameConstants GameConstantsStatic;
+	public static GameConstants GC_Static;
+
 	public EventSystem baseES;
 
 	public Character[] Characters;
 	public GameObject[] UI_Parents;
 	public EventSystem[] MES;
-
 	public Item[] Items;
 
 	public void Awake() {
 		// Singleton management
-		if (GameConstantsStatic == null) {
-			GameConstantsStatic = this;
+		if (GC_Static == null) {
+			GC_Static = this;
 
-		} else if (GameConstantsStatic != this) {
+		} else if (GC_Static != this) {
 			Destroy (gameObject);
 			return;
 		}

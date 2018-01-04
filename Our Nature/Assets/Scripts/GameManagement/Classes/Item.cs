@@ -5,7 +5,7 @@ using UnityEngine;
 // Base class for items (e.g. resources, equipment, etc.)
 public class Item : ScriptableObject {
 
-	public string ItemName;
+	//public string ItemName;
 	public string Description;
 	public Sprite Icon;
 

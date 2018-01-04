@@ -26,7 +26,7 @@ public class SharedCraftingIcon : MonoBehaviour {
 
 	public void OnSelectIcon(EventSystem selectingES) {
 		for (int i = 0; i < 4; i++) {
-			if (selectingES.Equals(GameConstants.GameConstantsStatic.Characters [i].Multi_ES)) {
+			if (selectingES.Equals(GameConstants.GC_Static.Characters [i].Multi_ES)) {
 				highlights [i].SetActive (true);
 				selected [i] = true;
 				return;
@@ -36,7 +36,7 @@ public class SharedCraftingIcon : MonoBehaviour {
 
 	public void OnDeselectIcon(EventSystem selectingES) {
 		for (int i = 0; i < 4; i++) {
-			if (selectingES.Equals(GameConstants.GameConstantsStatic.Characters [i].Multi_ES)) {
+			if (selectingES.Equals(GameConstants.GC_Static.Characters [i].Multi_ES)) {
 				highlights [i].SetActive (false);
 				selected [i] = false;
 				return;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EquipmentUIManager : MonoBehaviour {
+public class EquipmentIcon : MonoBehaviour {
 
 	private Item item;
 
@@ -18,7 +18,7 @@ public class EquipmentUIManager : MonoBehaviour {
 	// Display 
 	void DisplayIcon() {
 		if (item.Icon == null) {
-			Debug.Log ("Missing icon for: " + item.ItemName + " equipment");
+			Debug.Log ("Missing icon for: " + item.name + " equipment");
 			return;
 		}
 
