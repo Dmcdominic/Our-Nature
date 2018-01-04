@@ -18,9 +18,10 @@ public class CustomButton : Button {
 	private BaseEventData attemptedED;
 
 	protected override void Awake() {
-		if (GetComponent<ButtonReferenceProvider> () != null) {
-			item = GetComponent<ButtonReferenceProvider> ().item;
-			craftingHighlight = GetComponent<ButtonReferenceProvider> ().craftingHighlight;
+		ButtonReferenceProvider BRP = GetComponent<ButtonReferenceProvider> ();
+		if (BRP) {
+			item = BRP.item;
+			craftingHighlight = BRP.craftingHighlight;
 		}
 
 		base.Awake ();
@@ -82,9 +83,7 @@ public class CustomButton : Button {
 	}
 
 	void OnClickDelegate() {
-		print ("OnClickDelegate called");
 		if (item != null && item.usableInCrafting() && character) {
-			print ("Within conditional");
 			EventManager.TriggerEvent ("ClearCraftingSelect" + character.Name);
 			selectForCrafting ();
 		}
