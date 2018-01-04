@@ -11,13 +11,28 @@ public class CustomButton : Button {
 	public EventSystem eventSystem;
 	public Character character;
 
+	public Item item;
+	public GameObject craftingHighlight;
+
 	private EventSystem attemptedES;
 	private BaseEventData attemptedED;
+
+	protected override void Awake() {
+		if (GetComponent<ButtonReferenceProvider> () != null) {
+			item = GetComponent<ButtonReferenceProvider> ().item;
+			craftingHighlight = GetComponent<ButtonReferenceProvider> ().craftingHighlight;
+		}
+
+		base.Awake ();
+	}
 
 	protected override void Start() {
 		if (quitting) {
 			return;
 		}
+
+		onClick.AddListener (OnClickDelegate);
+
 		eventSystem = null;
 		character = null;
 		getEventSystem();
@@ -35,11 +50,13 @@ public class CustomButton : Button {
 		GameObject nextParent = gameObject;
 
 		while (nextParent != null) {
-			foreach (Character Char in GameConstants.Characters) {
-				if (nextParent == Char.UI_parent) {
-					eventSystem = Char.Multi_ES;
-					character = Char;
-					return;
+			foreach (Character Char in GameConstants.GameConstantsStatic.Characters) {
+				if (Char != null) {
+					if (nextParent == Char.UI_parent) {
+						eventSystem = Char.Multi_ES;
+						character = Char;
+						return;
+					}
 				}
 			}
 
@@ -58,6 +75,15 @@ public class CustomButton : Button {
 
 	void OnApplicationQuit() {
 		quitting = true;
+	}
+
+	void OnClickDelegate() {
+		if (item != null && item.usableInCrafting()) {
+			// First deselect all other buttons
+
+			eventSystem.GetComponent<MultiEventSystem> ().selectedCraftingItem = item;
+			craftingHighlight.SetActive (true);
+		}
 	}
 
 	// MultiEventSystem edits

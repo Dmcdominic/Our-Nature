@@ -8,41 +8,30 @@ public class GameConstants : MonoBehaviour {
 	public static GameConstants GameConstantsStatic;
 	public EventSystem baseES;
 
-	public static Character[] Characters;
-	public static Item[] items;
+	public Character[] Characters;
+	public GameObject[] UI_Parents;
+	public EventSystem[] MES;
 
-	// Parent object of each player's UI
-	public GameObject UI_P1;
-	public GameObject UI_P2;
-	public GameObject UI_P3;
-	public GameObject UI_P4;
-
-	// MultiEventSystem controlling each player's UI
-	public EventSystem MES_P1;
-	public EventSystem MES_P2;
-	public EventSystem MES_P3;
-	public EventSystem MES_P4;
+	public Item[] Items;
 
 	public void Awake() {
 		// Singleton management
 		if (GameConstantsStatic == null) {
 			GameConstantsStatic = this;
 
-			if (UI_P1 == null || UI_P2 == null || UI_P3 == null || UI_P4 == null || MES_P1 == null || MES_P2 == null || MES_P3 == null || MES_P4 == null) {
-				Debug.Log ("Empty field(s) in GameConstants");
-			}
-
 		} else if (GameConstantsStatic != this) {
 			Destroy (gameObject);
+			return;
 		}
 
-		// Character array management
-		Character A = new Character("Rabbit", UI_P1, MES_P1);
-		Character B = new Character("Woodpecker", UI_P2, MES_P2);
-		Character C = new Character("Earthworm", UI_P3, MES_P3);
-		Character D = new Character("Turtle", UI_P4, MES_P4);
-		Characters = new Character[] {A, B, C, D};
-
-		// Item info here
+		// Update Character references
+		for (int i = 0; i < 4; i++) {
+			if (Characters [i] != null) {
+				Characters [i].UI_parent = UI_Parents [i];
+				Characters [i].Multi_ES = MES [i];
+			} else {
+				Debug.Log ("Missing character " + (i+1) + " in GameConstants");
+			}
+		}
 	}
 }

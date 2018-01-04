@@ -5,18 +5,24 @@ using UnityEngine.UI;
 
 public class EquipmentUIManager : MonoBehaviour {
 
-	public string Name;
-	public Sprite EquipmentIcon;
-	public string Description;
+	private Item item;
+
+	void Awake() {
+		if (GetComponent<ButtonReferenceProvider> () != null) {
+			item = GetComponent<ButtonReferenceProvider> ().item;
+		} else {
+			Debug.Log ("No ButtonReferenceProvider found on button: " + gameObject);
+		}
+	}
 
 	// Display 
 	void DisplayIcon() {
-		if (EquipmentIcon == null) {
-			Debug.Log ("Missing icon for: " + Name + " equipment");
+		if (item.Icon == null) {
+			Debug.Log ("Missing icon for: " + item.ItemName + " equipment");
 			return;
 		}
 
-		gameObject.GetComponent<Image> ().sprite = EquipmentIcon;
+		gameObject.GetComponent<Image> ().sprite = item.Icon;
 
 		ColorBlock CB = GetComponent<CustomButton> ().colors;
 		CB.normalColor = Color.white;

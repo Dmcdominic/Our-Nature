@@ -9,6 +9,9 @@ public class MultiEventSystem : EventSystem {
 	[HideInInspector]
 	public Button prevButton;
 
+	[HideInInspector]
+	public Item selectedCraftingItem;
+
 	protected override void OnEnable() {
 		// Do not assign EventSystem.current
 	}

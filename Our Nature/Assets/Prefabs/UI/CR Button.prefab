@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 222916718224850594}
   - component: {fileID: 114701756346077602}
   - component: {fileID: 114757817161240382}
+  - component: {fileID: 114221436921950046}
   m_Layer: 0
   m_Name: CR Button
   m_TagString: Untagged
@@ -40,12 +41,24 @@ GameObject:
   - component: {fileID: 222283864759754282}
   - component: {fileID: 114541120616158456}
   m_Layer: 0
-  m_Name: Product Icon
+  m_Name: Resource Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &114221436921950046
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1290685032429826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13c9ed436cbf31d49a499382ce1017a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  item: {fileID: 0}
 --- !u!114 &114541120616158456
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -142,6 +155,8 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
   eventSystem: {fileID: 0}
+  character: {fileID: 0}
+  item: {fileID: 0}
 --- !u!222 &222283864759754282
 CanvasRenderer:
   m_ObjectHideFlags: 1
