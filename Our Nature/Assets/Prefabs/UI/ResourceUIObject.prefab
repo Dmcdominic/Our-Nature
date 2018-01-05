@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 114093483122301488}
   - component: {fileID: 114879333225220002}
   m_Layer: 0
-  m_Name: CR Button
+  m_Name: Resource Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -74,7 +74,7 @@ GameObject:
   - component: {fileID: 222110382661488152}
   - component: {fileID: 114706471583814336}
   m_Layer: 0
-  m_Name: CR Counter
+  m_Name: Counter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: 224235083730227708}
   - component: {fileID: 114960972019562808}
   m_Layer: 0
-  m_Name: CR Label
+  m_Name: Label
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -124,7 +124,7 @@ GameObject:
   - component: {fileID: 222021334300109058}
   - component: {fileID: 114567752502443502}
   m_Layer: 0
-  m_Name: CR Tag
+  m_Name: Resource Tag
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

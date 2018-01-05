@@ -12,6 +12,11 @@ public class Equipment : Item {
 	public upgradeEffect EffectType;
 	public float UpgradePercentage;
 
+	public void Equip() {
+		Equipped = true;
+		EventManager.TriggerEvent ("EquipmentEnabled" + this.name);
+	}
+
 	public override string getClassification ()
 	{
 		string text = "Equipment - ";

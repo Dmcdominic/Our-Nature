@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 public class SharedCraftingIcon : MonoBehaviour {
 
-	public Item currentItem;
+	public Resource currentResource;
 
 	public GameObject[] highlights;
 	[HideInInspector]
@@ -45,14 +45,32 @@ public class SharedCraftingIcon : MonoBehaviour {
 	}
 
 	public void updateItem(Item newItem) {
-		if (newItem == null) {
-			currentItem = null;
-			currentIcon.sprite = null;
-		} else {
-			currentItem = newItem;
-			currentIcon.sprite = newItem.Icon;
+		Resource newResource = (Resource)newItem;
+		if (newResource == currentResource) {
+			return;
 		}
 
-		// Call craftingManager function here
+		if (currentResource != null) {
+			currentResource.addToTotal (1);
+		}
+
+		if (newItem == null) {
+			clear ();
+		} else {
+			if (newResource.subtractFromTotal(1)) {
+				currentResource = newResource;
+				currentIcon.sprite = newItem.Icon;
+			} else {
+				// You are out of that resource!
+				return;
+			}
+		}
+
+		CraftingManager.CM_Static.updateCraftingStatus ();
+	}
+
+	public void clear() {
+		currentResource = null;
+		currentIcon.sprite = CommonSprites.CS_Static.CraftingBlankIcon;
 	}
 }

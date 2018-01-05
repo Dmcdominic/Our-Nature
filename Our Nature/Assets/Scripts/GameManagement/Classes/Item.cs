@@ -21,9 +21,32 @@ public class Item : ScriptableObject {
 		return false;
 	}
 
-	public Item[] getRecipe() {
-		return Recipe;
+	public bool checkRecipe(Item[] craftingGrid) {
+		if (craftingGrid.Length != 9 || Recipe.Length != 9) {
+			return false;
+		}
+
+		for (int i = 0; i < 9; i++) {
+			if (!sameItems(craftingGrid[i], Recipe[i])) {
+				return false;
+			}
+		}
+		
+		return true;
 	}
+
+	public static bool sameItems(Item A, Item B) {
+		if (A == null && B == null) {
+			return true;
+		} else if (A == null || B == null) {
+			return false;
+		} else if (A.name == B.name) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 
 	// Returns the ingredient required in slot "index" to craft this item
 	public Item getIngredient (int index) {

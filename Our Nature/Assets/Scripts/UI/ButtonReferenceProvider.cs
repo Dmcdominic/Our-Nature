@@ -19,15 +19,22 @@ public class ButtonReferenceProvider : MonoBehaviour {
 			if (resourceIcon) {
 				resourceIcon.sprite = item.Icon;
 			}
+			if (resourceCounter) {
+				EventManager.StartListening ("ChangeResource" + item.name, UpdateCounter);
+			}
 		} else {
 			//Debug.Log ("Null item in ButtonItemLink on button: " + gameObject);
 		}
+	}
+
+	void Start() {
+		UpdateCounter ();
 	}
 		
 	public void UpdateCounter() {
 		if (item) {
 			if (item.usableInCrafting() && resourceCounter != null) {
-				resourceCounter.text = ((Resource)item).Total.ToString();
+				resourceCounter.text = ((Resource)item).Total().ToString();
 			}
 		}
 	}

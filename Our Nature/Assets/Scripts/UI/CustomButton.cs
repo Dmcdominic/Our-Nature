@@ -46,21 +46,29 @@ public class CustomButton : Button {
 
 	// Find the MultiEventSystem that this button should associate with
 	private void getEventSystem() {
+		Character thisChar = getParentChar (gameObject);
+		if (thisChar) {
+			eventSystem = thisChar.Multi_ES;
+			character = thisChar;
+		} else {
+			eventSystem = null;
+			character = null;
+		}
+	}
 
+	public static Character getParentChar(GameObject obj) {
 		if (GameConstants.GC_Static == null) {
-			Debug.Log ("GC_Static returned null for object: " + gameObject);
-			return;
+			Debug.Log ("GC_Static returned null for object: " + obj);
+			return null;
 		}
 
-		GameObject nextParent = gameObject;
+		GameObject nextParent = obj;
 
 		while (nextParent != null) {
 			foreach (Character Char in GameConstants.GC_Static.Characters) {
 				if (Char != null) {
 					if (nextParent == Char.UI_parent) {
-						eventSystem = Char.Multi_ES;
-						character = Char;
-						return;
+						return Char;
 					}
 				}
 			}
@@ -72,10 +80,7 @@ public class CustomButton : Button {
 			}
 		}
 
-		if (nextParent == null) {
-			eventSystem = null;
-			character = null;
-		}
+		return null;
 	}
 
 	void OnApplicationQuit() {
@@ -83,9 +88,13 @@ public class CustomButton : Button {
 	}
 
 	void OnClickDelegate() {
-		if (item != null && item.usableInCrafting() && character) {
+		if (item != null && item.usableInCrafting () && character) {
 			EventManager.TriggerEvent ("ClearCraftingSelect" + character.Name);
 			selectForCrafting ();
+		} else if (GetComponent<SharedCraftingIcon> ()) {
+			GetComponent<SharedCraftingIcon> ().updateItem (EventSystem.current.GetComponent<MultiEventSystem> ().selectedCraftingItem);
+		} else if (GetComponent<PlayerCraftButton> ()) {
+			GetComponent<PlayerCraftButton> ().tryCraftItem ();
 		}
 	}
 
