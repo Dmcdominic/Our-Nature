@@ -55,7 +55,7 @@ public class SharedCraftingIcon : MonoBehaviour {
 		}
 
 		if (newItem == null) {
-			clear ();
+			clear (false);
 		} else {
 			if (newResource.subtractFromTotal(1)) {
 				currentResource = newResource;
@@ -69,8 +69,12 @@ public class SharedCraftingIcon : MonoBehaviour {
 		CraftingManager.CM_Static.updateCraftingStatus ();
 	}
 
-	public void clear() {
-		currentResource = null;
-		currentIcon.sprite = CommonSprites.CS_Static.CraftingBlankIcon;
+	public void clear(bool refund) {
+		if (refund) {
+			updateItem (null);
+		} else {
+			currentResource = null;
+			currentIcon.sprite = CommonSprites.CS_Static.CraftingBlankIcon;
+		}
 	}
 }

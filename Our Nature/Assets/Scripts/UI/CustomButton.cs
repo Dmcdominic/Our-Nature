@@ -112,6 +112,20 @@ public class CustomButton : Button {
 		}
 	}
 
+	public void Clear() {
+		if (eventSystem && eventSystem != EventSystem.current) { return; }
+
+		if (eventSystem && eventSystem == EventSystem.current) {
+			deselectForCrafting ();
+		}
+		if (GetComponent<SharedCraftingIcon> ()) {
+			GetComponent<SharedCraftingIcon> ().clear(true);
+		}
+		if (GetComponent<PlayerCraftButton> ()) {
+			CraftingManager.clearAll (true);
+		}
+	}
+
 	// MultiEventSystem edits
 	public override void OnPointerDown(PointerEventData eventData) {
 		if (eventData.button != PointerEventData.InputButton.Left) {
@@ -147,6 +161,10 @@ public class CustomButton : Button {
 		}
 
 		EventSystem.current.GetComponent<MultiEventSystem> ().prevButton = this;
+		if (!eventSystem && EventSystem.current.GetComponent<MultiEventSystem> ().ProperSelectButtonDown (character)) {
+			onClick.Invoke ();
+		}
+
 		base.OnSelect(eventData);
 	}
 

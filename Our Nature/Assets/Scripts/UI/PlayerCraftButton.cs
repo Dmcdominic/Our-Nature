@@ -44,7 +44,7 @@ public class PlayerCraftButton : MonoBehaviour {
 			Debug.Log ("CraftableItem type not recognized as resource or equipment");
 		}
 
-		CraftingManager.clearAll ();
+		CraftingManager.clearAll (false);
 		return true;
 	}
 }

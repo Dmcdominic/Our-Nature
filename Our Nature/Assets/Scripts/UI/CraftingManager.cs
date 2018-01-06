@@ -71,10 +71,14 @@ public class CraftingManager : MonoBehaviour {
 		}
 	}
 
-	public static void clearAll() {
+	public static void clearAll(bool refund) {
 		clearing = true;
 		foreach (SharedCraftingIcon SCI in CM_Static.CraftingSlots) {
-			SCI.clear();
+			if (refund) {
+				SCI.clear (true);
+			} else {
+				SCI.clear (false);
+			}
 		}
 		updateCraftButtons (null);
 		clearing = false;
