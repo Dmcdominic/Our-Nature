@@ -5,12 +5,12 @@ using UnityEngine;
 // Base class for items (e.g. resources, equipment, etc.)
 public class Item : ScriptableObject {
 
-	//public string ItemName;
 	public string Description;
 	public Sprite Icon;
 
 	public Item[] Recipe;
 
+	[HideInInspector]
 	public Character character;
 
 	public virtual string getClassification() {
@@ -19,6 +19,27 @@ public class Item : ScriptableObject {
 
 	public virtual bool usableInCrafting() {
 		return false;
+	}
+
+	public bool Obtained() {
+		return GameConstants.Obtained [this.name];
+	}
+
+	public bool Unlocked() {
+		return GameConstants.Unlocked [this.name];
+	}
+
+	public bool checkIfUnlocked() {
+		if (Recipe == null) {
+			return true;
+		}
+
+		foreach (Item ingredient in Recipe) {
+			if (ingredient && !GameConstants.Obtained [ingredient.name]) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	public bool checkRecipe(Item[] craftingGrid) {

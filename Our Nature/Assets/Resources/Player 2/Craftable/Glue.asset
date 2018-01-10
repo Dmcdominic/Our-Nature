@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0264712edbbed5c43bba48f9d5d9ef1e, type: 3}
+  m_Name: Glue
+  m_EditorClassIdentifier: 
+  Description: Sticky product that holds stuff together.
+  Icon: {fileID: 0}
+  Recipe:
+  - {fileID: 0}
+  - {fileID: 11400000, guid: a33a7c6453f2b234e9a0c3b12a3033c0, type: 2}
+  - {fileID: 11400000, guid: a33a7c6453f2b234e9a0c3b12a3033c0, type: 2}
+  - {fileID: 11400000, guid: a33a7c6453f2b234e9a0c3b12a3033c0, type: 2}
+  - {fileID: 11400000, guid: a33a7c6453f2b234e9a0c3b12a3033c0, type: 2}
+  - {fileID: 11400000, guid: a33a7c6453f2b234e9a0c3b12a3033c0, type: 2}
+  - {fileID: 11400000, guid: a33a7c6453f2b234e9a0c3b12a3033c0, type: 2}
+  - {fileID: 11400000, guid: a33a7c6453f2b234e9a0c3b12a3033c0, type: 2}
+  - {fileID: 0}
+  character: {fileID: 11400000, guid: b5ab0f6222585ff4daf1aa06c105b221, type: 2}
+  startingAmount: 0

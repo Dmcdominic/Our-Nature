@@ -19,7 +19,9 @@ public class GameConstants : MonoBehaviour {
 	[HideInInspector]
 	public Equipment[] Equipment_;
 
-	public Dictionary<string, int> Totals;
+	public static Dictionary<string, int> Totals;
+	public static Dictionary<string, bool> Obtained;
+	public static Dictionary<string, bool> Unlocked;
 
 	public void Awake() {
 		// Singleton management
@@ -43,16 +45,6 @@ public class GameConstants : MonoBehaviour {
 				Debug.Log ("Missing character " + (i+1) + " in GameConstants");
 			}
 		}
-
-		// Initialize Resource Totals array
-		Totals = new Dictionary<string, int>();
-
-		foreach (Resource res in Resources_Collectible) {
-			Totals.Add (res.name, res.startingAmount);
-		}
-		foreach (Resource res in Resources_Craftable) {
-			Totals.Add (res.name, res.startingAmount);
-		}
 	}
 
 	// Get items from Resources folder in Assets
@@ -63,7 +55,7 @@ public class GameConstants : MonoBehaviour {
 		int collectibleCount = 0;
 		int craftableCount = 0;
 		foreach (Object obj in objArray) {
-			if (((Resource)obj).Craftable) {
+			if (((Resource)obj).Craftable()) {
 				craftableCount++;
 			} else {
 				collectibleCount++;
@@ -76,7 +68,7 @@ public class GameConstants : MonoBehaviour {
 		craftableCount = 0;
 
 		foreach (Object obj in objArray) {
-			if (((Resource)obj).Craftable) {
+			if (((Resource)obj).Craftable()) {
 				Resources_Craftable [craftableCount] = ((Resource)obj);
 				craftableCount++;
 			} else {
@@ -102,6 +94,51 @@ public class GameConstants : MonoBehaviour {
 
 		for (int i = 0; i < objArray.Length; i++) {
 			Characters[i] = (Character)objArray [i];
+		}
+
+		// Assigning each item its respective character based on Resource path
+		for (int i = 0; i < 4; i++) {
+			Object[] playerItems = Resources.LoadAll ("Player " + (i+1).ToString (), typeof(Item));
+			foreach (Item item in playerItems) {
+				item.character = Characters [i];
+			}
+		}
+
+		// Initialize Resource "Totals" and "Obtained" dicts
+		Totals = new Dictionary<string, int>();
+		Obtained = new Dictionary<string, bool> ();
+
+		foreach (Resource res in Resources_Collectible) {
+			Totals.Add (res.name, res.startingAmount);
+			Obtained.Add (res.name, (res.Total () > 0));
+		}
+		foreach (Resource res in Resources_Craftable) {
+			Totals.Add (res.name, res.startingAmount);
+			Obtained.Add (res.name, (res.Total () > 0));
+		}
+
+		// Initialize Resource "Unlocked" dict
+		Unlocked = new Dictionary<string, bool> ();
+
+		foreach (Resource res in Resources_Collectible) {
+			Unlocked.Add (res.name, (res.checkIfUnlocked()));
+		}
+		foreach (Resource res in Resources_Craftable) {
+			Unlocked.Add (res.name, (res.checkIfUnlocked()));
+		}
+	}
+
+	// Update the "Unlocked" dictionary to be set true for any resources recently unlocked
+	public static void checkAllUnlocked() {
+		foreach (Resource res in GC_Static.Resources_Collectible) {
+			if (!Unlocked[res.name]) {
+				Unlocked.Add (res.name, (res.checkIfUnlocked()));
+			}
+		}
+		foreach (Resource res in GC_Static.Resources_Craftable) {
+			if (!Unlocked[res.name]) {
+				Unlocked.Add (res.name, (res.checkIfUnlocked()));
+			}
 		}
 	}
 }

@@ -9,10 +9,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0264712edbbed5c43bba48f9d5d9ef1e, type: 3}
-  m_Name: Food
+  m_Name: Sap
   m_EditorClassIdentifier: 
-  Description: Whatever you can find to keep your party fed.
+  Description: The blood of the trees.
   Icon: {fileID: 0}
   Recipe: []
-  character: {fileID: 11400000, guid: 02772c5f22adfd44996af3454f4b2e9c, type: 2}
+  character: {fileID: 11400000, guid: b5ab0f6222585ff4daf1aa06c105b221, type: 2}
   startingAmount: 0

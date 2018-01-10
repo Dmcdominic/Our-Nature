@@ -7,8 +7,10 @@ public enum upgradeEffect {runningSpeed, diggingSpeed, diggingCapability, essenc
 // Equipment class, extends Item
 [CreateAssetMenu(menuName="Equipment")]
 public class Equipment : Item {
+	
 	[HideInInspector]
 	public bool Equipped;
+
 	public upgradeEffect EffectType;
 	public float UpgradePercentage;
 
