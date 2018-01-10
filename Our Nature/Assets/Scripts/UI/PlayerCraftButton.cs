@@ -38,13 +38,13 @@ public class PlayerCraftButton : MonoBehaviour {
 
 		if (CraftableItem.GetType () == typeof(Resource)) {
 			((Resource)CraftableItem).addToTotal (1);
-		} else if (CraftableItem.GetType () == typeof(Equipment)) {
+		} else if (CraftableItem.GetType () == typeof(Equipment) && !(((Equipment)CraftableItem).Equipped)) {
 			((Equipment)CraftableItem).Equip ();
 		} else {
 			Debug.Log ("CraftableItem type not recognized as resource or equipment");
 		}
 
-		CraftingManager.clearAll (false);
+		CraftingManager.clearAndRefill();
 		return true;
 	}
 }

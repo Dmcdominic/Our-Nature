@@ -46,19 +46,4 @@ public class Item : ScriptableObject {
 			return false;
 		}
 	}
-
-
-	// Returns the ingredient required in slot "index" to craft this item
-	public Item getIngredient (int index) {
-		if (Recipe == null) {
-			return null;
-		}
-		return Recipe [index];
-	}
-
-	// Make a recipe from 9 Items, using null for empty slot
-	public static Item[] newRecipe(Item a, Item b, Item c, Item d, Item e, Item f, Item g, Item h, Item i) {
-		Item[] tempRecipe = {a, b, c, d, e, f, g, h, i};
-		return tempRecipe;
-	}
 }

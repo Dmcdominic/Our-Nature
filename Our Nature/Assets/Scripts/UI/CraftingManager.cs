@@ -43,6 +43,8 @@ public class CraftingManager : MonoBehaviour {
 				return;
 			}
 		}
+
+		updateCraftButtons (null);
 	}
 
 	private Item[] getItemArray() {
@@ -80,7 +82,18 @@ public class CraftingManager : MonoBehaviour {
 				SCI.clear (false);
 			}
 		}
-		updateCraftButtons (null);
 		clearing = false;
+		updateCraftButtons (null);
+	}
+
+	public static void clearAndRefill() {
+		clearing = true;
+		foreach (SharedCraftingIcon SCI in CM_Static.CraftingSlots) {
+			if (!(SCI.currentResource && SCI.currentResource.subtractFromTotal (1))) {
+				SCI.clear (false);
+			}
+		}
+		clearing = false;
+		CM_Static.updateCraftingStatus ();
 	}
 }

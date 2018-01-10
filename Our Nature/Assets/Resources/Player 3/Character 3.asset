@@ -11,7 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e92356ddec0d8e044a82e7628f66ddca, type: 3}
   m_Name: Character 3
   m_EditorClassIdentifier: 
-  Name: Earthworm
+  Name: Turtle
   index: 2
   UI_parent: {fileID: 0}
   Multi_ES: {fileID: 0}
